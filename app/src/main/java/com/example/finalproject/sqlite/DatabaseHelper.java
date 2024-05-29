@@ -75,7 +75,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public List<AirplaneModels> getAllAirplanes() {
+    public Cursor getAllAirplanes() {
         List<AirplaneModels> airplaneList = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_AIRPLANES;
 
@@ -99,7 +99,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         cursor.close();
         db.close();
 
-        return airplaneList;
+        return (Cursor) airplaneList;
     }
 
     public void deleteAirplane(String flight) {
@@ -164,4 +164,16 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public String getColumnIsLoggedIn() {
         return COLUMN_IS_LOGGED_IN;
     }
+
+    public String getColumnAirline() {return COLUMN_AIRLINE;}
+
+    public String getColumnArrival() {return COLUMN_ARRIVAL;}
+
+    public String getColumnDeparture() {return COLUMN_DEPARTURE;}
+
+    public String getColumnFlight() {return COLUMN_FLIGHT;}
+
+    public String getColumnType() {return COLUMN_TYPE;}
+
+    public String getColumnStation() {return COLUMN_STATION;}
 }

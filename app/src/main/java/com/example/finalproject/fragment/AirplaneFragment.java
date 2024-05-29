@@ -26,6 +26,7 @@ import com.example.finalproject.adapter.AirplaneAdapter;
 import com.example.finalproject.api.ApiConfig;
 import com.example.finalproject.api.ApiService;
 import com.example.finalproject.model.AirplaneModels;
+import com.example.finalproject.sqlite.DatabaseHelper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +42,7 @@ public class AirplaneFragment extends Fragment {
     private Context context;
     private ArrayList<AirplaneModels> airplaneModels = new ArrayList<>();
     private ProgressBar progressBar;
+//    private DatabaseHelper dbHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,8 +58,10 @@ public class AirplaneFragment extends Fragment {
         progressBar = view.findViewById(R.id.progressBar);
         context = getContext();
 
+        DatabaseHelper dbHelper = new DatabaseHelper(requireContext());
+
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
-        airplaneAdapter = new AirplaneAdapter(airplaneModels, context);
+        airplaneAdapter = new AirplaneAdapter(airplaneModels, context, dbHelper);
         recyclerView.setAdapter(airplaneAdapter);
 
         apiService = ApiConfig.getClient().create(ApiService.class);

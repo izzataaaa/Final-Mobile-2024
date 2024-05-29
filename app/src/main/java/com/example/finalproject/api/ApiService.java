@@ -10,7 +10,7 @@ import retrofit2.http.Headers;
 import retrofit2.http.Query;
 
 public interface ApiService {
-    String RAPID_API_KEY = "93181b98d6mshf93653b16bf5cbcp1da356jsnf7b6c9615a0b";
+    String RAPID_API_KEY = "ddff2106bcmsh68cd9ba81958a12p1a1c99jsnee63332892de";
     String RAPID_API_HOST = "flight-data4.p.rapidapi.com";
 
     @Headers({

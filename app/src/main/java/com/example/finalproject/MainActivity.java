@@ -6,12 +6,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.example.finalproject.adapter.AirplaneAdapter;
 import com.example.finalproject.fragment.AirplaneFragment;
 import com.example.finalproject.fragment.ProfileFragment;
 import com.example.finalproject.fragment.SaveFragment;
+import com.example.finalproject.model.AirplaneModels;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AirplaneAdapter.OnItemClickListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,5 +55,14 @@ public class MainActivity extends AppCompatActivity {
                 return false;
             }
         });
+    }
+
+    @Override
+    public void onItemClick(AirplaneModels item) {
+        SaveFragment fragment = new SaveFragment();
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.frame_home, fragment)
+                .addToBackStack(null)
+                .commit();
     }
 }
