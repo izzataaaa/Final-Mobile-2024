@@ -19,6 +19,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+//import com.example.finalproject.EditProfileActivity;
 import com.example.finalproject.EditProfileActivity;
 import com.example.finalproject.LoginActivity;
 import com.example.finalproject.R;

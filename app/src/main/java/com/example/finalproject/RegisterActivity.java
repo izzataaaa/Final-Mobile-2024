@@ -40,7 +40,7 @@ public class RegisterActivity extends AppCompatActivity {
             if (!username.isEmpty() && !password.isEmpty()) {
                 if (databaseHelper.isUserExists(username)) {
                     usernameEditText.setError("Username already exists");
-                    Toast.makeText(RegisterActivity.this, "NIM already exists. Please use a different NIM.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "username already exists. Please use a different username.", Toast.LENGTH_SHORT).show();
                 } else {
                     databaseHelper.insertUser(username, password);
                     Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();

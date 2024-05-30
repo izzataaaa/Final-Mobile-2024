@@ -24,6 +24,7 @@ import com.example.finalproject.sqlite.DatabaseHelper;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class SaveFragment extends Fragment {
@@ -43,8 +44,8 @@ public class SaveFragment extends Fragment {
     }
 
     @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
+    public void onViewCreated(@NonNull View view, @Nullable Bundle saveInstancesState) {
+        super.onViewCreated(view, saveInstancesState);
         recyclerView = view.findViewById(R.id.recyclerView);
         progressBar = view.findViewById(R.id.progressBar);
         context = getContext();
@@ -52,37 +53,27 @@ public class SaveFragment extends Fragment {
         DatabaseHelper dbHelper = new DatabaseHelper(requireContext());
 
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
+
+
+        airplaneModels = new ArrayList<>();
         airplaneAdapter = new AirplaneAdapter(airplaneModels, context, dbHelper);
         recyclerView.setAdapter(airplaneAdapter);
 
+        List<AirplaneModels> airplanes = dbHelper.getAllAirplanes();
 
-        Cursor cursor;
-        cursor = dbHelper.getAllAirplanes();
+        if (airplanes != null) {
+            for (AirplaneModels airplane : airplanes) {
+                String airlane = airplane.getAirline();
+                String arrival = airplane.getArrival();
+                String departure = airplane.getDeparture();
+                String flight = airplane.getFlight();
+                String type = airplane.getType();
+                String station = airplane.getStation();
 
-        if (cursor != null && cursor.moveToFirst()) {
-            do {
-                String airlane = cursor.getString(cursor.getColumnIndexOrThrow(dbHelper.getColumnAirline()));
-                String arrival = cursor.getString(cursor.getColumnIndexOrThrow(dbHelper.getColumnArrival()));
-                String departure = cursor.getString(cursor.getColumnIndexOrThrow(dbHelper.getColumnDeparture()));
-                String flight = cursor.getString(cursor.getColumnIndexOrThrow(dbHelper.getColumnFlight()));
-                String type = cursor.getString(cursor.getColumnIndexOrThrow(dbHelper.getColumnType()));
-                String station = cursor.getString(cursor.getColumnIndexOrThrow(dbHelper.getColumnStation()));
-                long createdAt = cursor.getLong(cursor.getColumnIndexOrThrow(dbHelper.getColumnUsername()));
-                long updatedAt = cursor.getLong(cursor.getColumnIndexOrThrow(dbHelper.getColumnPassword()));
-
-                SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-                String createdAtStr = sdf.format(new Date(createdAt));
-                String updatedAtStr = sdf.format(new Date(updatedAt));
-
-                String timestamp = "Created at " + createdAtStr;
-                if (createdAt != updatedAt) {
-                    timestamp = "Updated at " + updatedAtStr;
-                }
-                airplaneAdapter = new AirplaneAdapter(airplaneModels, context, dbHelper);
-            } while (cursor.moveToNext());
-            cursor.close();
+                airplaneModels.add(airplane);
+            }
+            airplaneAdapter.notifyDataSetChanged();
         }
-
 
     }
 }
