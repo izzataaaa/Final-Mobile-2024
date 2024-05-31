@@ -1,7 +1,7 @@
 package com.example.finalproject.fragment;
 
 import android.content.Context;
-import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.ProgressBar;
 
 import com.example.finalproject.R;
@@ -21,11 +20,8 @@ import com.example.finalproject.adapter.AirplaneAdapter;
 import com.example.finalproject.model.AirplaneModels;
 import com.example.finalproject.sqlite.DatabaseHelper;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 public class SaveFragment extends Fragment {
 
@@ -34,7 +30,6 @@ public class SaveFragment extends Fragment {
     private Context context;
     private ArrayList<AirplaneModels> airplaneModels = new ArrayList<>();
     private ProgressBar progressBar;
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -50,30 +45,39 @@ public class SaveFragment extends Fragment {
         progressBar = view.findViewById(R.id.progressBar);
         context = getContext();
 
-        DatabaseHelper dbHelper = new DatabaseHelper(requireContext());
-
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
 
-
-        airplaneModels = new ArrayList<>();
-        airplaneAdapter = new AirplaneAdapter(airplaneModels, context, dbHelper);
+        airplaneAdapter = new AirplaneAdapter(airplaneModels, context, new DatabaseHelper(context));
         recyclerView.setAdapter(airplaneAdapter);
 
-        List<AirplaneModels> airplanes = dbHelper.getAllAirplanes();
+        // Panggil AsyncTask untuk memuat data
+        new LoadDataAsyncTask().execute();
+    }
 
-        if (airplanes != null) {
-            for (AirplaneModels airplane : airplanes) {
-                String airlane = airplane.getAirline();
-                String arrival = airplane.getArrival();
-                String departure = airplane.getDeparture();
-                String flight = airplane.getFlight();
-                String type = airplane.getType();
-                String station = airplane.getStation();
-
-                airplaneModels.add(airplane);
-            }
-            airplaneAdapter.notifyDataSetChanged();
+    private class LoadDataAsyncTask extends AsyncTask<Void, Void, List<AirplaneModels>> {
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            // Tampilkan progress bar sebelum memulai pemuatan data
+            progressBar.setVisibility(View.VISIBLE);
         }
 
+        @Override
+        protected List<AirplaneModels> doInBackground(Void... voids) {
+            DatabaseHelper dbHelper = new DatabaseHelper(context);
+            return dbHelper.getAllAirplanes();
+        }
+
+        @Override
+        protected void onPostExecute(List<AirplaneModels> airplanes) {
+            super.onPostExecute(airplanes);
+            if (airplanes != null) {
+                airplaneModels.clear();
+                airplaneModels.addAll(airplanes);
+                airplaneAdapter.notifyDataSetChanged();
+            }
+            // Sembunyikan progress bar setelah data dimuat
+            progressBar.setVisibility(View.GONE);
+        }
     }
 }

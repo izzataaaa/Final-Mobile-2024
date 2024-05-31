@@ -22,7 +22,7 @@ public class ProfileActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
+        setContentView(R.layout.fragment_profile);
 
         tv_username = findViewById(R.id.usernm);
         tv_password = findViewById(R.id.psswr);

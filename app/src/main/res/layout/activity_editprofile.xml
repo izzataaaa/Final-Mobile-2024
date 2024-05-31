@@ -99,13 +99,13 @@
                     android:textColor="#2196F3"
                     android:textSize="18sp" />
 
-                <TextView
+                <EditText
                     android:id="@+id/tv_name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:text="-"
-                    android:textColor="#6F4E37"
+                    android:textColor="#2196F3"
                     android:textSize="18sp"
                     android:textStyle="bold" />
 
@@ -128,20 +128,20 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="50dp"
+                    android:layout_height="30dp"
                     android:layout_weight="1"
                     android:text="Phone Number :"
                     android:textColor="#2196F3"
                     android:textSize="18sp" />
 
-                <TextView
+                <EditText
                     android:id="@+id/tv_number"
                     android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:text="-"
-                    android:textColor="#6F4E37"
+                    android:textColor="#2196F3"
                     android:textSize="18sp"
                     android:textStyle="bold" />
             </LinearLayout>

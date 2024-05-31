@@ -6,8 +6,10 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,10 +22,10 @@ public class LoginActivity extends AppCompatActivity {
     private EditText passwordEditText;
     private Button loginButton;
     private Button registerButton;
+    private ProgressBar progressBar;
 
     DatabaseHelper databaseHelper;
-
-    @SuppressLint("MissingInflatedId")
+    
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,6 +36,8 @@ public class LoginActivity extends AppCompatActivity {
         passwordEditText = findViewById(R.id.psswr);
         loginButton = findViewById(R.id.btnlogin);
         registerButton = findViewById(R.id.btnregist);
+
+        progressBar = findViewById(R.id.progressBar);
 
         // Initialize DatabaseHelper
         databaseHelper = new DatabaseHelper(this);
@@ -47,6 +51,7 @@ public class LoginActivity extends AppCompatActivity {
             } else if (password.isEmpty()) {
                 passwordEditText.setError("Please enter your password");
             } else {
+                showProgressBar();
                 login(username, password);
             }
         });
@@ -55,6 +60,13 @@ public class LoginActivity extends AppCompatActivity {
             Intent intent = new Intent(LoginActivity.this, RegisterActivity.class);
             startActivity(intent);
         });
+    }
+    private void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
+    }
+
+    private void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
     }
 
     private void login(String username, String password) {
@@ -77,6 +89,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             } else {
                 Toast.makeText(this, "Incorrect username or password", Toast.LENGTH_SHORT).show();
+                hideProgressBar();
             }
         }
     }

@@ -137,6 +137,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.update(TABLE_USER, values, COLUMN_IDUSER + " = ?", new String[]{String.valueOf(id)});
         db.close();
     }
+    public void updateUser(int userId, String username, String password) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(COLUMN_USERNAME, username);
+        values.put(COLUMN_PASSWORD, password);
+        db.update(TABLE_USER, values, COLUMN_IDUSER + " = ?", new String[]{String.valueOf(userId)});
+        db.close();
+    }
 
     public void deleteUser(int id) {
         SQLiteDatabase db = getWritableDatabase();

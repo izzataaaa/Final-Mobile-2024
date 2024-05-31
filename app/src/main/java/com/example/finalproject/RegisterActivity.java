@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,11 +16,11 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText usernameEditText;
     private EditText passwordEditText;
     private Button registerButton;
-    private Button loginButton; // Added
+    private ProgressBar progressBar;
 
     DatabaseHelper databaseHelper;
 
-    @SuppressLint("MissingInflatedId")
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,6 +30,7 @@ public class RegisterActivity extends AppCompatActivity {
         usernameEditText = findViewById(R.id.usernm);
         passwordEditText = findViewById(R.id.psswr);
         registerButton = findViewById(R.id.btn_regist);
+        progressBar = findViewById(R.id.progressBar);
 
 
         databaseHelper = new DatabaseHelper(this);
@@ -38,11 +40,13 @@ public class RegisterActivity extends AppCompatActivity {
             String password = passwordEditText.getText().toString().trim();
 
             if (!username.isEmpty() && !password.isEmpty()) {
+                showProgressBar();
                 if (databaseHelper.isUserExists(username)) {
                     usernameEditText.setError("Username already exists");
                     Toast.makeText(RegisterActivity.this, "username already exists. Please use a different username.", Toast.LENGTH_SHORT).show();
                 } else {
                     databaseHelper.insertUser(username, password);
+                    hideProgressBar();
                     Toast.makeText(RegisterActivity.this, "Registration successful", Toast.LENGTH_SHORT).show();
                     finish();
                 }
@@ -51,5 +55,12 @@ public class RegisterActivity extends AppCompatActivity {
             }
         });
 
+    }
+    private void showProgressBar() {
+        progressBar.setVisibility(ProgressBar.VISIBLE);
+    }
+
+    private void hideProgressBar() {
+        progressBar.setVisibility(ProgressBar.GONE);
     }
 }

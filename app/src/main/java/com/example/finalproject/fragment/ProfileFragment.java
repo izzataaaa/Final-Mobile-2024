@@ -1,5 +1,6 @@
 package com.example.finalproject.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ContentValues;
@@ -16,28 +17,34 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 //import com.example.finalproject.EditProfileActivity;
 import com.example.finalproject.EditProfileActivity;
 import com.example.finalproject.LoginActivity;
 import com.example.finalproject.R;
 import com.example.finalproject.sqlite.DatabaseHelper;
+import com.google.android.material.textfield.TextInputEditText;
 
 public class ProfileFragment extends Fragment {
 
     TextView tv_welcome, tv_name, tv_number;
-    ImageView img_logo, iv_delete;
-    Button btn_change, btn_logout;
-    DatabaseHelper databaseHelper;
+    ImageView img_logo;
+    Button btn_edit, btn_logout;
+    private ProgressBar progressBar;
     private int recordId;
+    DatabaseHelper databaseHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_profile, container, false);
     }
 
+    @SuppressLint("WrongViewCast")
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -45,25 +52,28 @@ public class ProfileFragment extends Fragment {
         databaseHelper = new DatabaseHelper(getContext());
 
         tv_welcome = view.findViewById(R.id.tv_welcome);
-        tv_name = view.findViewById(R.id.tv_name);
-        tv_number = view.findViewById(R.id.tv_number);
-        btn_change = view.findViewById(R.id.btn_edit);
-        iv_delete = view.findViewById(R.id.iv_delete);
+        btn_edit = view.findViewById(R.id.btn_edit);
         img_logo = view.findViewById(R.id.img_logo);
         btn_logout = view.findViewById(R.id.btn_logout);
+        tv_name = view.findViewById(R.id.tv_name);
+        tv_number = view.findViewById(R.id.tv_number);
+        progressBar = view.findViewById(R.id.progressBar);
+
 
         loadUserData();
 
         btn_logout.setOnClickListener(v -> showLogoutConfirmationDialog());
 
-        btn_change.setOnClickListener(v -> {
-            startActivityForResult(new Intent(getActivity(), EditProfileActivity.class), 1);
+        btn_edit.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+            intent.putExtra("USER_ID", recordId);
+            startActivity(intent);
         });
 
-        iv_delete.setOnClickListener(v -> showDeleteConfirmationDialog());
     }
 
     private void loadUserData() {
+        showProgressBar();
         try (SQLiteDatabase db = databaseHelper.getReadableDatabase();
              Cursor cursor = db.query(
                      databaseHelper.getTableUser(),
@@ -86,8 +96,12 @@ public class ProfileFragment extends Fragment {
                 // Assuming you want to display the user ID or other placeholder in tv_number
                 tv_number.setText(String.valueOf(recordId));
             }
+        }finally {
+            hideProgressBar(); 
         }
     }
+
+
 
     private void logoutUser() {
         try (SQLiteDatabase db = databaseHelper.getWritableDatabase()) {
@@ -109,16 +123,8 @@ public class ProfileFragment extends Fragment {
                 .show();
     }
 
-    private void showDeleteConfirmationDialog() {
-        new AlertDialog.Builder(getActivity())
-                .setTitle("Delete Account")
-                .setMessage("Are you sure to delete the account?")
-                .setPositiveButton("Yes", (dialog, which) -> {
-                    databaseHelper.deleteUser(recordId);
-                    logoutUser();
-                })
-                .setNegativeButton("No", (dialog, which) -> dialog.dismiss())
-                .show();
+    private void showProgressBar() {
+        progressBar.setVisibility(View.VISIBLE);
     }
 
     @Override
@@ -128,5 +134,9 @@ public class ProfileFragment extends Fragment {
             // Reload user data after editing
             loadUserData();
         }
+        hideProgressBar();
+    }
+    private void hideProgressBar() {
+        progressBar.setVisibility(View.GONE);
     }
 }
