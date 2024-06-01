@@ -5,9 +5,9 @@
 InfoTerbang merupakan aplikasi yang dirancang khusus untuk memberikan informasi terbaru tentang pesawat. Dengan InfoTerbang, pengguna dapat menemukan berbagai macam pesawat serta mengetahui berbagai macam tipe pesawat.
 
 ## Fitur Utama
-- Home: InfoTerbang menyediakan berbagai berbagai macam pesawat serta mengetahui berbagai macam tipe pesawat
-- Perubahan profile: Fitur perubahan profil pada aplikasi memudahkan pengguna untuk memperbarui informasi pribadi mereka. 
-- Menyimpan Informasi ke Daftar Save: Tandai dan simpan informasi yang ingin di simpan untuk mempermudah dalam mengakses.
+- **Home**: InfoTerbang menyediakan berbagai berbagai macam pesawat serta mengetahui berbagai macam tipe pesawat
+- **Perubahan profile**: Fitur perubahan profil pada aplikasi memudahkan pengguna untuk memperbarui informasi pribadi mereka. 
+- **Menyimpan Informasi ke Daftar Save**: Tandai dan simpan informasi yang ingin di simpan untuk mempermudah dalam mengakses.
 
 
 ## Cara Penggunaan Aplikasi
