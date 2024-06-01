@@ -19,7 +19,7 @@ public class AirplaneActivity extends AppCompatActivity {
             FragmentManager fragmentManager = getSupportFragmentManager();
             FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
             AirplaneFragment airplaneFragment = new AirplaneFragment();
-            fragmentTransaction.add(R.id.airline, airplaneFragment);
+            fragmentTransaction.add(R.id.recyclerView, airplaneFragment);
             fragmentTransaction.commit();
         }
     }

@@ -20,6 +20,8 @@ public class MainActivity extends AppCompatActivity implements AirplaneAdapter.O
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+
+
         FragmentManager fragmentManager = getSupportFragmentManager();
         AirplaneFragment airplaneFragment = new AirplaneFragment();
         Fragment fragment = fragmentManager.findFragmentByTag(AirplaneFragment.class.getSimpleName());

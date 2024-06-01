@@ -14,7 +14,7 @@ import java.util.List;
 public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "airplanes.db";
-    private static final int DATABASE_VERSION = 2;
+    private static final int DATABASE_VERSION = 5;
     private static final String TABLE_AIRPLANES = "airplanes";
     private static final String COLUMN_ID = "id";
     private static final String COLUMN_AIRLINE = "airline";
@@ -25,7 +25,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     private static final String COLUMN_STATION = "station";
     public static final String TABLE_USER = "user";
     private static final String COLUMN_IDUSER = "id";
-    private static final String COLUMN_USERNAME = "username";
+    public static final String COLUMN_USERNAME = "username";
+    public static final String COLUMN_PHONE = "phone";
     private static final String COLUMN_PASSWORD = "password";
     public static final String COLUMN_IS_LOGGED_IN = "isLogged";
 
@@ -49,6 +50,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
                 + COLUMN_IDUSER + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_USERNAME + " TEXT,"
                 + COLUMN_PASSWORD + " TEXT,"
+                + COLUMN_PHONE + " TEXT,"
                 + COLUMN_IS_LOGGED_IN + " INTEGER" + ")";
         db.execSQL(CREATE_USER_TABLE);
     }
@@ -75,7 +77,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.close();
     }
 
-    public List <AirplaneModels> getAllAirplanes() {
+    public List<AirplaneModels> getAllAirplanes() {
         List<AirplaneModels> airplaneList = new ArrayList<>();
         String selectQuery = "SELECT * FROM " + TABLE_AIRPLANES;
 
@@ -114,6 +116,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(COLUMN_USERNAME, username);
         values.put(COLUMN_PASSWORD, password);
+        values.put(COLUMN_PHONE, "");
         values.put(COLUMN_IS_LOGGED_IN, 0);
         db.insert(TABLE_USER, null, values);
         db.close();
@@ -135,14 +138,6 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         values.put(COLUMN_PASSWORD, password);
         values.put(COLUMN_IS_LOGGED_IN, isLoggedIn);
         db.update(TABLE_USER, values, COLUMN_IDUSER + " = ?", new String[]{String.valueOf(id)});
-        db.close();
-    }
-    public void updateUser(int userId, String username, String password) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(COLUMN_USERNAME, username);
-        values.put(COLUMN_PASSWORD, password);
-        db.update(TABLE_USER, values, COLUMN_IDUSER + " = ?", new String[]{String.valueOf(userId)});
         db.close();
     }
 
@@ -173,15 +168,31 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         return COLUMN_IS_LOGGED_IN;
     }
 
-    public String getColumnAirline() {return COLUMN_AIRLINE;}
+    public String getColumnAirline() {
+        return COLUMN_AIRLINE;
+    }
 
-    public String getColumnArrival() {return COLUMN_ARRIVAL;}
+    public String getColumnArrival() {
+        return COLUMN_ARRIVAL;
+    }
 
-    public String getColumnDeparture() {return COLUMN_DEPARTURE;}
+    public String getColumnDeparture() {
+        return COLUMN_DEPARTURE;
+    }
 
-    public String getColumnFlight() {return COLUMN_FLIGHT;}
+    public String getColumnFlight() {
+        return COLUMN_FLIGHT;
+    }
 
-    public String getColumnType() {return COLUMN_TYPE;}
+    public String getColumnType() {
+        return COLUMN_TYPE;
+    }
 
-    public String getColumnStation() {return COLUMN_STATION;}
+    public String getColumnStation() {
+        return COLUMN_STATION;
+    }
+
+    public String getColumnPhone() {
+        return COLUMN_PHONE;
+    }
 }

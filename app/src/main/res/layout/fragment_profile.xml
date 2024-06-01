@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@drawable/bg_activity"
     tools:context=".fragment.ProfileFragment">
 
@@ -135,7 +136,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_margin="10dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal" >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -143,7 +144,7 @@
                     android:layout_weight="1"
                     android:text="Phone Number :"
                     android:textColor="#2196F3"
-                    android:textSize="18sp" /> />
+                    android:textSize="18sp" />
 
                 <TextView
                     android:id="@+id/tv_number"
@@ -170,6 +171,7 @@
 
 
     </RelativeLayout>
+
     <ProgressBar
         android:id="@+id/progressBar"
         android:layout_width="wrap_content"

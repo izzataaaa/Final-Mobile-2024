@@ -65,9 +65,10 @@ public class ProfileFragment extends Fragment {
         btn_logout.setOnClickListener(v -> showLogoutConfirmationDialog());
 
         btn_edit.setOnClickListener(v -> {
-            Intent intent = new Intent(getActivity(), EditProfileActivity.class);
-            intent.putExtra("USER_ID", recordId);
-            startActivity(intent);
+//            Intent intent = new Intent(getActivity(), EditProfileActivity.class);
+//            intent.putExtra("USER_ID", recordId);
+//            startActivity(intent);
+            startActivityForResult(new Intent(getActivity(), EditProfileActivity.class), 1);
         });
 
     }
@@ -81,20 +82,21 @@ public class ProfileFragment extends Fragment {
                              databaseHelper.getColumnIdUser(),
                              databaseHelper.getColumnUsername(),
                              databaseHelper.getColumnPassword(),
-                             databaseHelper.getColumnIsLoggedIn()
+                             databaseHelper.getColumnIsLoggedIn(),
+                             databaseHelper.getColumnPhone()
                      },
                      databaseHelper.getColumnIsLoggedIn() + " = ?",
                      new String[]{"1"},
                      null, null, null)) {
 
             if (cursor.moveToFirst()) {
-                recordId = cursor.getInt(cursor.getColumnIndexOrThrow(databaseHelper.getColumnIdUser()));
                 String username = cursor.getString(cursor.getColumnIndexOrThrow(databaseHelper.getColumnUsername()));
+                String phone = cursor.getString(cursor.getColumnIndexOrThrow(databaseHelper.getColumnPhone()));
 
                 tv_welcome.setText("Halo, " + username + "!");
                 tv_name.setText(username);
-                // Assuming you want to display the user ID or other placeholder in tv_number
-                tv_number.setText(String.valueOf(recordId));
+//                 Assuming you want to display the user ID or other placeholder in tv_number
+                tv_number.setText(phone);
             }
         }finally {
             hideProgressBar(); 
